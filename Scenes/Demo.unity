@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -418,7 +418,6 @@ GameObject:
   m_Component:
   - component: {fileID: 993579420}
   - component: {fileID: 993579419}
-  - component: {fileID: 993579418}
   m_Layer: 0
   m_Name: Hands_Camera
   m_TagString: Untagged
@@ -426,14 +425,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &993579418
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 993579417}
-  m_Enabled: 1
 --- !u!20 &993579419
 Camera:
   m_ObjectHideFlags: 0
@@ -921,7 +912,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1883235633}
   - component: {fileID: 1883235632}
-  - component: {fileID: 1883235631}
   m_Layer: 0
   m_Name: SkyCamera
   m_TagString: Untagged
@@ -929,14 +919,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1883235631
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1883235630}
-  m_Enabled: 1
 --- !u!20 &1883235632
 Camera:
   m_ObjectHideFlags: 0
