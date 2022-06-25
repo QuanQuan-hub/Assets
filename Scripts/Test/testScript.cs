@@ -13,16 +13,14 @@ public class testScript : MonoBehaviour
     {
         //EventManager.AddListener(EventID.initJson, InitJson);
         //InitJson();
-        InputManager.Instance.ModifyKey(ActionEnum.attack, KeyCode.A);
-        InputManager.Instance.SaveActionKey();
+        //InputManager.Instance.ModifyKey(ActionEnum.attack, KeyCode.A);
+        //InputManager.Instance.SaveActionKey();
     }
 
+    KeyCode currentKey = KeyCode.None;
     void Update()
     {
-        if (InputManager.Instance.IsKeyDown(ActionEnum.forward))
-        {
-            print("前进");
-        }
+        
     }
     #region 采样键位
     private void InitJson()
@@ -70,4 +68,12 @@ public class testScript : MonoBehaviour
         yield return 0;
     }
     #endregion
+    private void OnGUI()
+    {
+        currentKey = Event.current.keyCode;
+        if (Input.anyKey && currentKey != KeyCode.None)
+        {
+            print(InputManager.Instance.GetKeyAction(currentKey));
+        }
+    }
 }
