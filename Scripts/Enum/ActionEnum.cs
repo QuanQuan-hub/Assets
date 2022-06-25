@@ -1,6 +1,6 @@
 ﻿public enum ActionEnum
 {
-    None,
+    None=0,
     forward,
     back,
     right,

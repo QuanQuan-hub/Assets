@@ -1,10 +1,11 @@
-﻿{"None":0,
-"forward":119,
-"back":115,
-"right":100,
-"left":97,
-"attack":323,
-"defense":324,
-"block":306,
-"jump":32
+﻿{
+  "None": 0,
+  "forward": 119,
+  "back": 115,
+  "right": 100,
+  "left": 0,
+  "attack": 97,
+  "defense": 324,
+  "block": 306,
+  "jump": 32
 }

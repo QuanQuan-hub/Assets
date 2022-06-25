@@ -13,6 +13,8 @@ public class testScript : MonoBehaviour
     {
         //EventManager.AddListener(EventID.initJson, InitJson);
         //InitJson();
+        InputManager.Instance.ModifyKey(ActionEnum.attack, KeyCode.A);
+        InputManager.Instance.SaveActionKey();
     }
 
     void Update()
@@ -38,12 +40,11 @@ public class testScript : MonoBehaviour
         string jsonString = JsonConvert.SerializeObject(Action2Key, Formatting.None);
 
         string jsonPath = Application.streamingAssetsPath + "/Action2KeyConfig.json";
-        string jsonConvert = JsonConvert.SerializeObject(jsonString, Formatting.None);
         if (!File.Exists(jsonPath))
         {
             File.CreateText(jsonPath).Dispose();
         }
-        File.WriteAllText(jsonPath, jsonConvert, System.Text.Encoding.UTF8);
+        File.WriteAllText(jsonPath, jsonString, System.Text.Encoding.UTF8);
 
         print(jsonString);
     }
