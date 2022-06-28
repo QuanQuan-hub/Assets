@@ -26,16 +26,21 @@ public class testScript : MonoBehaviour
     private void InitJson()
     {
         Action2Key = new Dictionary<ActionEnum, KeyCode>();
+        Action2Key[ActionEnum.None] = 0;
         StartCoroutine(inputKey());
     }
     IEnumerator inputKey()
     {
         foreach (ActionEnum action in Enum.GetValues(typeof(ActionEnum)))
         {
+            if (action == ActionEnum.None)
+            {
+                continue;
+            }
             print(action + ":");
             yield return inputAnyKey(action);
         }
-        string jsonString = JsonConvert.SerializeObject(Action2Key, Formatting.None);
+        string jsonString = JsonConvert.SerializeObject(Action2Key, Formatting.Indented);
 
         string jsonPath = Application.streamingAssetsPath + "/Action2KeyConfig.json";
         if (!File.Exists(jsonPath))
@@ -68,12 +73,4 @@ public class testScript : MonoBehaviour
         yield return 0;
     }
     #endregion
-    private void OnGUI()
-    {
-        currentKey = Event.current.keyCode;
-        if (Input.anyKey && currentKey != KeyCode.None)
-        {
-            print(InputManager.Instance.GetKeyAction(currentKey));
-        }
-    }
 }

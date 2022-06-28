@@ -18,12 +18,12 @@ public class testMove : MonoBehaviour
     {
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
-        if (InputManager.Instance.IsKeyHold(ActionEnum.jump ))
+        if (InputManager.Instance.IsKeyHold(ActionEnum.run ))
         {
             x *= 2;
             y *= 2;
         }
-        animator.SetBool("isCrouch", InputManager.Instance.IsKeyHold(ActionEnum.attack));
+        animator.SetBool("isCrouch", InputManager.Instance.IsKeyHold(ActionEnum.crouch_hold));
         animator.SetFloat("rightVector", x);
         animator.SetFloat("forwardVector", y);
     }

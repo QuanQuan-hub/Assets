@@ -4,8 +4,7 @@
   "back": 115,
   "right": 100,
   "left": 97,
-  "attack": 116,
-  "defense": 324,
-  "block": 306,
-  "jump": 32
+  "crouch_hold": 306,
+  "crouch_press": 99,
+  "run": 304
 }

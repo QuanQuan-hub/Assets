@@ -5,8 +5,7 @@
     back,
     right,
     left,
-    attack,
-    defense,
-    block,
-    jump,
+    crouch_hold,
+    crouch_press,
+    run,
 }
