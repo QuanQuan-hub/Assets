@@ -76,6 +76,10 @@ public class PlayerComtroller : MonoBehaviour
         {
             isCrouch = isHoldCrouch;
         }
+        if (Mathf.Abs(rightVector) <= 0.1f && Mathf.Abs(forwardVector) <= 0.1f)
+        {
+            isCrouch = false;
+        }
         //设置视点位置
         ViewObj.transform.localPosition = isCrouch ? crouchViewPos : standViewPos;
     }
@@ -113,7 +117,6 @@ public class PlayerComtroller : MonoBehaviour
             if (Mathf.Abs(rightVector) <= 0.1f)
             {
                 rightVector = 0;
-                isPressRun = false;
             }
             else
             {
@@ -150,7 +153,6 @@ public class PlayerComtroller : MonoBehaviour
             if (Mathf.Abs(forwardVector) <= 0.1f) 
             {
                 forwardVector = 0;
-                isPressRun = false;
             }
             else
             {
