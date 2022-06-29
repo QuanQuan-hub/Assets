@@ -11,6 +11,11 @@ public class PlayerComtroller : MonoBehaviour
     private float rightVector;
     private bool isCrouch;
 
+    public GameObject ViewObj;
+    public GameObject AimObj;
+    private Vector3 standViewPos;
+    private Vector3 crouchViewPos;
+
     public bool RunMode_Hold = true;//temp
 
     void Start()
@@ -20,6 +25,8 @@ public class PlayerComtroller : MonoBehaviour
         forwardVector = 0f;
         rightVector = 0f;
         isCrouch = false;
+        standViewPos = ViewObj.transform.localPosition;
+        crouchViewPos = standViewPos / 2;
     }
 
     private int forwardIndex = 0;
@@ -69,6 +76,8 @@ public class PlayerComtroller : MonoBehaviour
         {
             isCrouch = isHoldCrouch;
         }
+        //设置视点位置
+        ViewObj.transform.localPosition = isCrouch ? crouchViewPos : standViewPos;
     }
 
     bool isHoldForward = false;
