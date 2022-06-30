@@ -5,28 +5,36 @@ using UnityEngine;
 
 public class PlayerComtroller : MonoBehaviour
 {
-    private Animator animator;
     private InputManager inputManager;
     private float forwardVector;
     private float rightVector;
     private bool isCrouch;
 
-    public GameObject ViewObj;
-    public GameObject AimObj;
-    private Vector3 standViewPos;
-    private Vector3 crouchViewPos;
-
+    #region 设置Setting，都是暂时这样，到时候应该有设置中心控制
     public bool RunMode_Hold = true;//temp
+    public bool IsInvertYAxis = false;
+    private int YAxisIndex = 1;
+    [Range(1f, 10f)]
+    public float mouseXSpeed = 1f;
+    [Range(1f, 10f)]
+    public float mouseYSpeed = 1f;
+    #endregion
+    private void Awake()
+    {
+        EventManager.AddListener<bool>(EventID.SetInvertYAxis, SetInvertYAxis);
+    }
 
+    private void OnDestroy()
+    {
+        EventManager.RemoveListener<bool>(EventID.SetInvertYAxis, SetInvertYAxis);
+    }
     void Start()
     {
         inputManager = InputManager.Instance;
-        animator = transform.GetChild(0).GetComponent<Animator>();
         forwardVector = 0f;
         rightVector = 0f;
         isCrouch = false;
-        standViewPos = ViewObj.transform.localPosition;
-        crouchViewPos = standViewPos / 2;
+        SetInvertYAxis(IsInvertYAxis);
     }
 
     private int forwardIndex = 0;
@@ -43,6 +51,23 @@ public class PlayerComtroller : MonoBehaviour
         SetForwardVector();
         SetRightVector();
         SetAnimator();
+        SetAim();
+    }
+
+    private void SetAnimator()
+    {
+        EventManager.ExecuteEvent(EventID.SetPlayerAin, isCrouch, forwardVector, rightVector);
+    }
+
+    private void SetAim()
+    {
+        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+        {
+            EventManager.ExecuteEvent(EventID.SetAim,
+                Input.GetAxis("Mouse X") * mouseXSpeed, Input.GetAxis("Mouse Y") * mouseXSpeed * YAxisIndex);
+        }
+        
+        //TODO:鼠标控制转向抬头
     }
 
     float clampIndex = 1f;
@@ -80,8 +105,6 @@ public class PlayerComtroller : MonoBehaviour
         {
             isCrouch = false;
         }
-        //设置视点位置
-        ViewObj.transform.localPosition = isCrouch ? crouchViewPos : standViewPos;
     }
 
     bool isHoldForward = false;
@@ -170,10 +193,9 @@ public class PlayerComtroller : MonoBehaviour
             forwardVector = Mathf.Clamp(forwardVector, -clampIndex, clampIndex);
         }
     }
-    private void SetAnimator()
+    private void SetInvertYAxis(bool isInvert)
     {
-        animator.SetBool("isCrouch", isCrouch);
-        animator.SetFloat("forwardVector", forwardVector);
-        animator.SetFloat("rightVector", rightVector);
+        IsInvertYAxis = isInvert;
+        YAxisIndex = IsInvertYAxis ? 1 : -1;
     }
 }

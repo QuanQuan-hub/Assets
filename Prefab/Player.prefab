@@ -1772,7 +1772,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2612042590961486059}
-  - component: {fileID: 2612042590961486052}
+  - component: {fileID: 2612042591570421392}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1796,7 +1796,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2612042590961486052
+--- !u!114 &2612042591570421392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1805,12 +1805,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2612042590961486058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7658d58440bcc6844aed0102392eede4, type: 3}
+  m_Script: {fileID: 11500000, guid: b423c0b540709f44f9b88e98af56c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ViewObj: {fileID: 2612042590587616309}
   AimObj: {fileID: 2612042592092747049}
-  RunMode_Hold: 1
 --- !u!1 &2612042591612537021
 GameObject:
   m_ObjectHideFlags: 0

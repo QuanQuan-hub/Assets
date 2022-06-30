@@ -2,4 +2,7 @@
 {
     test,
     initJson,
+    SetPlayerAin,
+    SetAim,
+    SetInvertYAxis,
 }
