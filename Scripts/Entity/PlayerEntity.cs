@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,22 +9,41 @@ public class PlayerEntity : MonoBehaviour
 
     public GameObject ViewObj;
     public GameObject AimTurnObj;
-    private GameObject AimElevationObj;
+    private Transform AimElevationObj;
+    private Transform AimPos;
+    public GameObject WeaponObj;
+    private Transform LeftHoldPos;
 
     private Vector3 standViewPos;
     private Vector3 crouchViewPos;
 
     private void Awake()
     {
-        AimElevationObj = AimTurnObj.transform.GetChild(0).gameObject;
+        AimElevationObj = AimTurnObj.transform.GetChild(0);
+        AimPos = AimElevationObj.GetChild(0);
+        LeftHoldPos = WeaponObj.transform.GetChild(0).Find("LeftHold_Pos");
+
         EventManager.AddListener<bool, float, float>(EventID.SetPlayerAin, SetAnimator);
         EventManager.AddListener<float, float>(EventID.SetAim, SetAim);
+        EventManager.AddListener<bool>(EventID.SetAimAnimation, SetAimAinmation);
     }
+
+    private void SetAimAinmation(bool isAim)
+    {
+        if (isAim)
+        {
+            WeaponObj.transform.LookAt(AimPos);
+        }
+        animator.SetBool("isAim", isAim);
+    }
+
     private void Start()
     {
         animator = transform.GetChild(0).GetComponent<Animator>();
         standViewPos = ViewObj.transform.localPosition;
         crouchViewPos = standViewPos / 2;
+
+        EventManager.ExecuteEvent(EventID.InitLeftHold, LeftHoldPos);
     }
 
     private void SetAnimator(bool isCrouch,float forwardVector,float rightVector)
@@ -43,15 +63,12 @@ public class PlayerEntity : MonoBehaviour
         AimTurnObj.transform.localRotation = Quaternion.AngleAxis(x, transform.up) * AimTurnObj.transform.localRotation;
         AimElevationX += y;
         AimElevationX = Mathf.Clamp(AimElevationX, minimumVert, maximumVert);
-        AimElevationObj.transform.localEulerAngles = new Vector3(AimElevationX, 0, 0);
-        /*if(AimElevationX >= 0.2f)
-        {
-            AimElevationObj.transform.localRotation = Quaternion.AngleAxis(y, transform.right) * AimElevationObj.transform.localRotation;
-        }*/
+        AimElevationObj.localEulerAngles = new Vector3(AimElevationX, 0, 0);
     }
     private void OnDestroy()
     {
         EventManager.RemoveListener<bool, float, float>(EventID.SetPlayerAin, SetAnimator);
         EventManager.RemoveListener<float, float>(EventID.SetAim, SetAim);
+        EventManager.RemoveListener<bool>(EventID.SetAimAnimation, SetAimAinmation);
     }
 }

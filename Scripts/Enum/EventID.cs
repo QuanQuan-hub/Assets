@@ -5,4 +5,6 @@
     SetPlayerAin,
     SetAim,
     SetInvertYAxis,
+    SetAimAnimation,
+    InitLeftHold,
 }

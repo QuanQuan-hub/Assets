@@ -8,4 +8,6 @@
     crouch_hold,
     crouch_press,
     run,
+    shoot,
+    aim,
 }

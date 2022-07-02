@@ -12,6 +12,7 @@ public class PlayerComtroller : MonoBehaviour
 
     #region 设置Setting，都是暂时这样，到时候应该有设置中心控制
     public bool RunMode_Hold = true;//temp
+    public bool AimMode_Hold = true;
     public bool IsInvertYAxis = false;
     private int YAxisIndex = 1;
     [Range(1f, 10f)]
@@ -19,6 +20,8 @@ public class PlayerComtroller : MonoBehaviour
     [Range(1f, 10f)]
     public float mouseYSensitivity = 1f;
     #endregion
+
+
     private void Awake()
     {
         EventManager.AddListener<bool>(EventID.SetInvertYAxis, SetInvertYAxis);
@@ -42,7 +45,7 @@ public class PlayerComtroller : MonoBehaviour
     
     private int rightIndex = 0;
     float rightSpeed = 6f;
-
+    
     void Update()
     {
         KeyHold();
@@ -66,8 +69,14 @@ public class PlayerComtroller : MonoBehaviour
             EventManager.ExecuteEvent(EventID.SetAim,
                 Input.GetAxis("Mouse X") * mouseXSensitivity, Input.GetAxis("Mouse Y") * mouseYSensitivity * YAxisIndex);
         }
-        
-        //TODO:鼠标控制转向抬头
+        if (AimMode_Hold)
+        {
+            EventManager.ExecuteEvent(EventID.SetAimAnimation, isHoldAim);
+        }
+        else
+        {
+            EventManager.ExecuteEvent(EventID.SetAimAnimation, inputManager.IsKeyDown(ActionEnum.aim));
+        }
     }
 
     float clampIndex = 1f;
@@ -109,6 +118,7 @@ public class PlayerComtroller : MonoBehaviour
     bool isHoldLeft = false;
     bool isHoldCrouch = false;
     bool isHoldRun = false;
+    bool isHoldAim = false;
     private void KeyHold()
     {
         isHoldForward = inputManager.IsKeyHold(ActionEnum.forward);
@@ -117,6 +127,7 @@ public class PlayerComtroller : MonoBehaviour
         isHoldLeft = inputManager.IsKeyHold(ActionEnum.left);
         isHoldCrouch = inputManager.IsKeyHold(ActionEnum.crouch_hold);
         isHoldRun = inputManager.IsKeyHold(ActionEnum.run);
+        isHoldAim = inputManager.IsKeyHold(ActionEnum.aim);
     }
     private void SetRightVector()
     {

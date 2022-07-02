@@ -6,5 +6,7 @@
   "left": 97,
   "crouch_hold": 306,
   "crouch_press": 99,
-  "run": 304
+  "run": 304,
+  "shoot":323,
+  "aim": 324
 }

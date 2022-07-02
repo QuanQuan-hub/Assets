@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RunMode_Hold: 1
+  AimMode_Hold: 1
   IsInvertYAxis: 0
   mouseXSensitivity: 1
   mouseYSensitivity: 1
