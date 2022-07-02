@@ -15,9 +15,9 @@ public class PlayerComtroller : MonoBehaviour
     public bool IsInvertYAxis = false;
     private int YAxisIndex = 1;
     [Range(1f, 10f)]
-    public float mouseXSpeed = 1f;
+    public float mouseXSensitivity = 1f;
     [Range(1f, 10f)]
-    public float mouseYSpeed = 1f;
+    public float mouseYSensitivity = 1f;
     #endregion
     private void Awake()
     {
@@ -64,7 +64,7 @@ public class PlayerComtroller : MonoBehaviour
         if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
         {
             EventManager.ExecuteEvent(EventID.SetAim,
-                Input.GetAxis("Mouse X") * mouseXSpeed, Input.GetAxis("Mouse Y") * mouseXSpeed * YAxisIndex);
+                Input.GetAxis("Mouse X") * mouseXSensitivity, Input.GetAxis("Mouse Y") * mouseYSensitivity * YAxisIndex);
         }
         
         //TODO:鼠标控制转向抬头
@@ -100,10 +100,6 @@ public class PlayerComtroller : MonoBehaviour
         if (inputManager.IsKeyUp(ActionEnum.crouch_hold))
         {
             isCrouch = isHoldCrouch;
-        }
-        if (Mathf.Abs(rightVector) <= 0.1f && Mathf.Abs(forwardVector) <= 0.1f)
-        {
-            isCrouch = false;
         }
     }
 
