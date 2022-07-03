@@ -11,9 +11,11 @@ public class PlayerIKEntity : MonoBehaviour
     public Transform LeftHoldPos;
     public Transform RightHoldPos;
     public Transform AimPos;
+
     private bool isAim = false;
     private float AimX = 0;
     private float AimY = 0;
+
     public float leftHandIKIndexX;
     public float leftHandIKIndexY;
     public float leftHandIKIndexZ;
@@ -21,6 +23,10 @@ public class PlayerIKEntity : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        EventManager.AddListener<GameObject>(EventID.InitWeaponObj, InitWeaponObj);
+        EventManager.AddListener<bool>(EventID.SetAimAnimation, SetAimAinmation);
+        EventManager.AddListener<Transform>(EventID.InitAimObj, InitAimObj);
+        EventManager.AddListener<float, float>(EventID.OnAimXYChange, OnAimXYChange);
     }
 
     private void Start()
@@ -28,15 +34,10 @@ public class PlayerIKEntity : MonoBehaviour
         leftHandIKIndexX = ConstValue.leftHandIKIndexX;
         leftHandIKIndexY = ConstValue.leftHandIKIndexY;
         leftHandIKIndexZ = ConstValue.leftHandIKIndexZ;
-        EventManager.AddListener<GameObject>(EventID.InitWeaponObj, InitWeaponObj);
-        EventManager.AddListener<bool>(EventID.SetAimAnimation, SetAimAinmation);
-        EventManager.AddListener<Transform>(EventID.InitAimObj, InitAimObj);
-        EventManager.AddListener<float, float>(EventID.OnAimXYChange, OnAimXYChange);
     }
     private float index = -35;
     private void OnAimXYChange(float x, float y)
     {
-        Debug.Log(x+" "+y);
         AimX = x;
         AimY = y;
         //视角如果高于35度取消左手的旋转，如果低于35度，即35~-60度，线性改变左手旋转量，越靠近35度越趋于0

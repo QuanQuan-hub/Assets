@@ -40,6 +40,7 @@ public class PlayerEntity : MonoBehaviour
         animator = transform.GetChild(0).GetComponent<Animator>();
         standViewPos = ViewObj.transform.localPosition;
         crouchViewPos = standViewPos / 2;
+        characterForward = transform.forward;
 
         EventManager.ExecuteEvent(EventID.InitWeaponObj, WeaponObj);
         EventManager.ExecuteEvent(EventID.InitAimObj, AimPos);
@@ -55,9 +56,41 @@ public class PlayerEntity : MonoBehaviour
         ViewObj.transform.localPosition = isCrouch ? crouchViewPos : standViewPos;
     }
     private float AimElevationX = 0;
+    private Vector3 characterForward;
+    private Vector3 AimForward;
     private void SetAim(float x,float y)
     {
-        AimTurnObj.transform.localRotation = Quaternion.AngleAxis(x, transform.up) * AimTurnObj.transform.localRotation;
+        AimForward = AimPos.position - transform.position;
+        if (Vector3.Dot(characterForward, AimForward) > 4f) 
+        {
+            AimTurnObj.transform.localRotation = Quaternion.AngleAxis(x, transform.up) * AimTurnObj.transform.localRotation;
+        }
+        else
+        {
+            characterForward = Vector3.Lerp(characterForward, transform.forward, 2);
+            if (Vector3.Dot(transform.forward,characterForward) > 0.5f)
+            {
+                if (Vector3.Dot(transform.right, AimForward) >0)
+                {
+                    Debug.Log("right");
+                    if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "turn 90 right")
+                    {
+                        animator.SetTrigger("turn_right");
+                    }
+                }
+                else
+                {
+                    Debug.Log("left");
+                    if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "turn 90 left")
+                    {
+                        animator.SetTrigger("turn_left");
+                    }
+                }
+            }
+            transform.localRotation = Quaternion.AngleAxis(x, transform.up) * transform.localRotation;
+        }
+        
+
         AimElevationX += y;
         AimElevationX = Mathf.Clamp(AimElevationX, ConstValue.ViewMinimumVert, ConstValue.ViewMaximumVert);
         AimElevationObj.localEulerAngles = new Vector3(AimElevationX, 0, 0);
