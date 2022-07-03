@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 玩家实体类
+/// </summary>
 public class PlayerEntity : MonoBehaviour
 {
     private Animator animator;
