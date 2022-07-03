@@ -6,5 +6,7 @@
     SetAim,
     SetInvertYAxis,
     SetAimAnimation,
-    InitLeftHold,
+    InitWeaponObj,
+    InitAimObj,
+    OnAimXYChange,
 }

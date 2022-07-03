@@ -12,7 +12,6 @@ public class PlayerEntity : MonoBehaviour
     private Transform AimElevationObj;
     private Transform AimPos;
     public GameObject WeaponObj;
-    private Transform LeftHoldPos;
 
     private Vector3 standViewPos;
     private Vector3 crouchViewPos;
@@ -21,7 +20,6 @@ public class PlayerEntity : MonoBehaviour
     {
         AimElevationObj = AimTurnObj.transform.GetChild(0);
         AimPos = AimElevationObj.GetChild(0);
-        LeftHoldPos = WeaponObj.transform.GetChild(0).Find("LeftHold_Pos");
 
         EventManager.AddListener<bool, float, float>(EventID.SetPlayerAin, SetAnimator);
         EventManager.AddListener<float, float>(EventID.SetAim, SetAim);
@@ -30,10 +28,7 @@ public class PlayerEntity : MonoBehaviour
 
     private void SetAimAinmation(bool isAim)
     {
-        if (isAim)
-        {
-            WeaponObj.transform.LookAt(AimPos);
-        }
+        WeaponObj.transform.LookAt(AimPos);
         animator.SetBool("isAim", isAim);
     }
 
@@ -43,7 +38,8 @@ public class PlayerEntity : MonoBehaviour
         standViewPos = ViewObj.transform.localPosition;
         crouchViewPos = standViewPos / 2;
 
-        EventManager.ExecuteEvent(EventID.InitLeftHold, LeftHoldPos);
+        EventManager.ExecuteEvent(EventID.InitWeaponObj, WeaponObj);
+        EventManager.ExecuteEvent(EventID.InitAimObj, AimPos);
     }
 
     private void SetAnimator(bool isCrouch,float forwardVector,float rightVector)
@@ -56,14 +52,13 @@ public class PlayerEntity : MonoBehaviour
         ViewObj.transform.localPosition = isCrouch ? crouchViewPos : standViewPos;
     }
     private float AimElevationX = 0;
-    private float minimumVert = -60;
-    private float maximumVert = 60;
     private void SetAim(float x,float y)
     {
         AimTurnObj.transform.localRotation = Quaternion.AngleAxis(x, transform.up) * AimTurnObj.transform.localRotation;
         AimElevationX += y;
-        AimElevationX = Mathf.Clamp(AimElevationX, minimumVert, maximumVert);
+        AimElevationX = Mathf.Clamp(AimElevationX, ConstValue.ViewMinimumVert, ConstValue.ViewMaximumVert);
         AimElevationObj.localEulerAngles = new Vector3(AimElevationX, 0, 0);
+        EventManager.ExecuteEvent(EventID.OnAimXYChange, AimTurnObj.transform.localRotation.y, AimElevationX);
     }
     private void OnDestroy()
     {
