@@ -58,16 +58,21 @@ public class PlayerEntity : MonoBehaviour
     private float AimElevationX = 0;
     private Vector3 characterForward;
     private Vector3 AimForward;
+    private bool isTruning = false;
     private void SetAim(float x,float y)
     {
-        AimForward = AimPos.position - transform.position;
-        if (Vector3.Dot(characterForward, AimForward) > 4f) 
+        AimForward = (AimPos.position - transform.position - Vector3.Project(AimPos.position - transform.position, Vector3.up)).normalized;
+        Debug.DrawRay(transform.position, characterForward, Color.green);
+        Debug.DrawRay(transform.position, AimForward, Color.red);
+        Debug.DrawRay(transform.position, transform.forward, Color.blue);
+        Debug.Log("脚尖指向与人物朝向："+Vector3.Dot(transform.forward, AimForward));
+        if (Vector3.Dot(characterForward, AimForward) > 0.7f) 
         {
             AimTurnObj.transform.localRotation = Quaternion.AngleAxis(x, transform.up) * AimTurnObj.transform.localRotation;
         }
         else
         {
-            characterForward = Vector3.Lerp(characterForward, transform.forward, 2);
+            isTruning = true;
             if (Vector3.Dot(transform.forward,characterForward) > 0.5f)
             {
                 if (Vector3.Dot(transform.right, AimForward) >0)
@@ -87,9 +92,14 @@ public class PlayerEntity : MonoBehaviour
                     }
                 }
             }
-            transform.localRotation = Quaternion.AngleAxis(x, transform.up) * transform.localRotation;
+            transform.localRotation = Quaternion.AngleAxis(x * 2, transform.up) * transform.localRotation;
+            AimTurnObj.transform.localRotation = Quaternion.AngleAxis(-x, transform.up) * AimTurnObj.transform.localRotation;
         }
-        
+        if (Vector3.Dot(AimForward, transform.forward) > 0.9f && isTruning)
+        {
+            characterForward = transform.forward;
+            isTruning = false;
+        }
 
         AimElevationX += y;
         AimElevationX = Mathf.Clamp(AimElevationX, ConstValue.ViewMinimumVert, ConstValue.ViewMaximumVert);
